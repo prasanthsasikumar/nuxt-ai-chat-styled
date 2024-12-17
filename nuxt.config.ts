@@ -1,4 +1,6 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import dotenv from 'dotenv';
+dotenv.config(); // Load .env file
+
 export default defineNuxtConfig({
 	css: ['~/assets/css/main.css'],
 	runtimeConfig: {

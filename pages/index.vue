@@ -1,7 +1,7 @@
 <script setup>
 	const messages = ref([
 		{
-			role: 'AI',
+			role: 'assistant',
 			message: 'Hello! How can I help you?'
 		}
 	]);
@@ -13,14 +13,14 @@
 			const chatMessages = document.querySelector('.chat-messages > div:last-child');
 			chatMessages?.scrollIntoView({ behavior: 'smooth', block: 'end' });
 		}, 100);
-	};
+	};	
 
 	const sendPrompt = async () => {
 		if (message.value === '') return;
 		loading.value = true;
 
 		messages.value.push({
-			role: 'User',
+			role: 'user',
 			message: message.value
 		});
 
@@ -32,15 +32,18 @@
 			method: 'post'
 		});
 
+		/* print the response */
+		console.log(res);
+
 		if (res.status === 200) {
 			const response = await res.json();
 			messages.value.push({
-				role: 'AI',
+				role: 'assistant',
 				message: response?.message
 			});
 		} else {
 			messages.value.push({
-				role: 'AI',
+				role: 'assistant',
 				message: 'Sorry, an error occurred.'
 			});
 		}
@@ -52,18 +55,12 @@
 
 <template>
 	<div class="max-w-xl mx-auto text-black">
-		<a
-			href="https://vercel.com/templates/next.js/blob-sveltekit"
-			class="flex justify-center px-10 py-2 mx-auto space-x-1 text-sm font-medium text-center text-gray-600 transition-all rounded-full shadow-sm group bg-white/30 ring-1 ring-gray-900/5 hover:shadow-lg active:shadow-sm"
-		>
-			Deploy your own to Vercel
-		</a>
-		<h1 class="my-8 text-5xl font-bold text-center text-black">AI Chatbot</h1>
+		<h1 class="my-8 text-5xl font-bold text-center text-black">Hatthini</h1>
 		<div class="max-w-xl mx-auto">
 			<div class="bg-white rounded-md shadow h-[60vh] flex flex-col justify-between">
 				<div class="h-full overflow-auto chat-messages">
 					<div v-for="(message, i) in messages" :key="i" class="flex flex-col p-4">
-						<div v-if="message.role === 'AI'" class="pr-8 mr-auto">
+						<div v-if="message.role === 'assistant'" class="pr-8 mr-auto">
 							<div class="p-2 mt-1 text-sm text-gray-700 bg-gray-200 rounded-lg text-smp-2">
 								{{ message.message }}
 							</div>
@@ -125,7 +122,7 @@
 					href="https://openai.com/blog/gpt-3-apps"
 					class="flex items-center mx-1 font-medium underline transition-colors underline-offset-4 hover:text-black/70"
 				>
-					<p>gpt-3</p>
+					<p>gpt-4</p>
 				</a>
 				<span>and</span>
 				<a
@@ -136,18 +133,6 @@
 					<p>Nuxt</p>
 				</a>
 				.
-			</div>
-			<div class="flex flex-col items-center justify-center">
-				<a href="https://vercel.com">
-					<img src="/vercel.svg" alt="Vercel Logo" class="h-4 my-2 text-white" />
-				</a>
-				<a
-					href="https://github.com/StephDietz/nuxt-ai-chat"
-					class="flex items-center font-medium underline transition-colors underline-offset-4 hover:text-black/70"
-				>
-					<img src="/github.svg" alt="GitHub Logo" class="h-4" />
-					<p class="ml-1">Source</p>
-				</a>
 			</div>
 		</div>
 	</div>
